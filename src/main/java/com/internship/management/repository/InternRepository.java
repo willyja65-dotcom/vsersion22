@@ -14,6 +14,4 @@ public interface InternRepository extends JpaRepository<Intern, Long> {
     List<Intern> findByEncadreurId(Long encadreurId);
     List<Intern> findByProjectId(Long projectId);
     List<Intern> findByProject(Project project);
-    List<Intern> findByStatus(Intern.InternshipStatus status);
-
 }

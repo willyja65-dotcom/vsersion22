@@ -3,7 +3,7 @@ package com.internship.management.controller;
 import com.internship.management.dto.ApiResponse;
 import com.internship.management.dto.CreateInternRequest;
 import com.internship.management.dto.InternDTO;
-import com.internship.management.entity.Intern;
+import com.internship.management.entity.User;
 import com.internship.management.service.InternService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class InternController {
             @RequestParam(required = false) Long encadreurId,
             @RequestParam(required = false) Long encadreurUserId,
             @RequestParam(required = false) String department,
-            @RequestParam(required = false) String status
+            @RequestParam(required = false) String accountStatus
     ) {
         if (encadreurId != null) {
             return ResponseEntity.ok(ApiResponse.success("INTERN_LIST_BY_ENCADREUR", internService.getInternsByEncadreur(encadreurId)));
@@ -53,9 +53,9 @@ public class InternController {
         if (department != null) {
             return ResponseEntity.ok(ApiResponse.success("INTERN_LIST_BY_DEPARTMENT", internService.getInternsByDepartment(department)));
         }
-        if (status != null) {
-            Intern.InternshipStatus internStatus = Intern.InternshipStatus.valueOf(status.toUpperCase());
-            return ResponseEntity.ok(ApiResponse.success("INTERN_LIST_BY_STATUS", internService.getInternsByStatus(internStatus)));
+        if (accountStatus != null) {
+            User.AccountStatus status = User.AccountStatus.valueOf(accountStatus.toUpperCase());
+            return ResponseEntity.ok(ApiResponse.success("INTERN_LIST_BY_ACCOUNT_STATUS", internService.getInternsByAccountStatus(status)));
         }
         return ResponseEntity.ok(ApiResponse.success("INTERN_LIST", internService.getAllInterns()));
     }
@@ -83,16 +83,16 @@ public class InternController {
         }
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<ApiResponse<InternDTO>> updateInternStatus(
+    @PatchMapping("/{id}/account-status")
+    public ResponseEntity<ApiResponse<InternDTO>> updateInternAccountStatus(
             @PathVariable Long id,
             @RequestBody Map<String, String> request
     ) {
         try {
-            String statusStr = request.get("status");
-            Intern.InternshipStatus status = Intern.InternshipStatus.valueOf(statusStr.toUpperCase());
-            InternDTO intern = internService.updateInternStatus(id, status);
-            return ResponseEntity.ok(ApiResponse.success("INTERN_STATUS_UPDATED", intern));
+            String statusStr = request.get("accountStatus");
+            User.AccountStatus accountStatus = User.AccountStatus.valueOf(statusStr.toUpperCase());
+            InternDTO intern = internService.updateInternAccountStatus(id, accountStatus);
+            return ResponseEntity.ok(ApiResponse.success("INTERN_ACCOUNT_STATUS_UPDATED", intern));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }

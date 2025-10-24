@@ -44,9 +44,6 @@ public class Intern {
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @Enumerated(EnumType.STRING)
-    private InternshipStatus status;
-
     private String cv;
     private String notes;
 
@@ -56,11 +53,4 @@ public class Intern {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    public enum InternshipStatus {
-        PENDING,
-        ACTIVE,
-        COMPLETED,
-        CANCELLED
-    }
 }

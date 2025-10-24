@@ -202,7 +202,6 @@ public class AuthService {
                 .department(request.getMajor())
                 .startDate(request.getStartDate() != null ? LocalDate.parse(request.getStartDate()) : null)
                 .endDate(request.getEndDate() != null ? LocalDate.parse(request.getEndDate()) : null)
-                .status(Intern.InternshipStatus.PENDING)
                 .build();
 
         internRepository.save(intern);

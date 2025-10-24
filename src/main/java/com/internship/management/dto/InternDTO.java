@@ -22,7 +22,7 @@ public class InternDTO {
     private String department;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String status;
+    private String accountStatus;
     private String phone;
     private String cv;
     private String notes;
@@ -44,7 +44,7 @@ public class InternDTO {
                 .startDate(intern.getStartDate())
                 .avatar(intern.getUser().getAvatar())
                 .endDate(intern.getEndDate())
-                .status(intern.getStatus().name())
+                .accountStatus(intern.getUser().getAccountStatus().name())
                 .phone(intern.getUser().getPhone())
                 .cv(intern.getCv())
                 .notes(intern.getNotes())

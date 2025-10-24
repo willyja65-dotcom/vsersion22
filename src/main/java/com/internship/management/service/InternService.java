@@ -52,7 +52,6 @@ public class InternService {
                 .department(request.getDepartment())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
-                .status(Intern.InternshipStatus.PENDING)
                 .build();
 
         intern = internRepository.save(intern);
@@ -99,8 +98,9 @@ public class InternService {
     }
 
     @Transactional(readOnly = true)
-    public List<InternDTO> getInternsByStatus(Intern.InternshipStatus status) {
-        return internRepository.findByStatus(status).stream()
+    public List<InternDTO> getInternsByAccountStatus(User.AccountStatus accountStatus) {
+        return internRepository.findAll().stream()
+                .filter(intern -> intern.getUser().getAccountStatus() == accountStatus)
                 .map(InternDTO::fromEntity)
                 .collect(Collectors.toList());
     }
@@ -155,11 +155,12 @@ public class InternService {
     }
 
     @Transactional
-    public InternDTO updateInternStatus(Long id, Intern.InternshipStatus status) {
+    public InternDTO updateInternAccountStatus(Long id, User.AccountStatus accountStatus) {
         Intern intern = internRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("INTERN_NOT_FOUND"));
-        intern.setStatus(status);
-        intern = internRepository.save(intern);
+        User user = intern.getUser();
+        user.setAccountStatus(accountStatus);
+        userRepository.save(user);
         return InternDTO.fromEntity(intern);
     }
 

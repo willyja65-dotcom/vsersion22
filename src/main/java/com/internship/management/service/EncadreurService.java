@@ -227,7 +227,7 @@ public class EncadreurService {
                 .department(intern.getDepartment())
                 .startDate(intern.getStartDate())
                 .endDate(intern.getEndDate())
-                .status(intern.getStatus().name())
+                .accountStatus(intern.getUser().getAccountStatus().name())
                 .build();
     }
 }
